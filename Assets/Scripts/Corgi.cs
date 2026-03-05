@@ -8,11 +8,13 @@ public class Corgi : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     public void Move(Vector2 direction)
     {
         FaceCorrectDirection(direction);
-        Vector2 movementAmount = GameParameters.CorgiMoveSpeed * direction * Time.deltaTime;
+        Vector2 movementAmount = direction * (GameParameters.CorgiMoveSpeed * Time.deltaTime);
         spriteRenderer.transform.Translate(movementAmount.x, movementAmount.y, 0);
+        spriteRenderer.transform.position = SpriteTools.ConstrainToScreen(spriteRenderer);
     }
 
     private void FaceCorrectDirection(Vector2 direction)
@@ -25,5 +27,10 @@ public class Corgi : MonoBehaviour
         {
             spriteRenderer.flipX = true;
         }
+    }
+
+    public Vector3 GetPosition()
+    {
+        return spriteRenderer.transform.position;
     }
 }
