@@ -9,21 +9,21 @@ public class KeyboardInput : MonoBehaviour
     {
         Keyboard keyboard = Keyboard.current;
         // check key pressed
-        if (keyboard.wKey.isPressed) // w --> up
+        if (keyboard.wKey.isPressed)
         {
-            Corgi.Move(Vector2.up);
+            Corgi.MoveManually(Vector2.up);
         }
-        if (keyboard.sKey.isPressed) // s --> down
+        if (keyboard.sKey.isPressed)
         {
-            Corgi.Move(Vector2.down);
+            Corgi.MoveManually(Vector2.down);
         }
-        if (keyboard.aKey.isPressed) // a --> left
+        if (keyboard.aKey.isPressed)
         {
-            Corgi.Move(Vector2.left);
+            Corgi.MoveManually(Vector2.left);
         }
-        if (keyboard.dKey.isPressed) // d --> right
+        if (keyboard.dKey.isPressed)
         {
-            Corgi.Move(Vector2.right);
+            Corgi.MoveManually(Vector2.right);
         }
 
         if (keyboard.spaceKey.wasPressedThisFrame)

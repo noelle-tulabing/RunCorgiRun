@@ -6,11 +6,14 @@ public class Corgi : MonoBehaviour
 {
     public Sprite SoberSprite;
     public Sprite DrunkSprite;
+    public UI UI;
     
     private SpriteRenderer spriteRenderer;
     private bool isDrunk = false;
     private bool isPlastered = false;
     private Coroutine soberUpCoroutine;
+    private int randomMoveCounter = 0;
+    private int lastRandomDirection = 0;
 
     public void Awake()
     {
@@ -27,7 +30,13 @@ public class Corgi : MonoBehaviour
 
     private void MoveRandomly()
     {
-        int direction = Random.Range(0,2);
+        int direction = lastRandomDirection;
+        if (randomMoveCounter == 0)
+        {
+            direction = Random.Range(0,4);
+            lastRandomDirection = direction;
+            randomMoveCounter = Random.Range(20,60);
+        }
         switch  (direction)
         {
             case 0:
@@ -36,8 +45,21 @@ public class Corgi : MonoBehaviour
             case 1:
                 Move(new Vector2(-1, 0));
                 break;
-            default:
+            case 2:
+                Move(new Vector2(0, 1));
                 break;
+            case 3:
+                Move(new Vector2(0, -1));
+                break;
+        }
+        randomMoveCounter--;
+    }
+
+    public void MoveManually(Vector2 direction)
+    {
+        if (!isPlastered)
+        {
+            Move(direction);
         }
     }
 
@@ -86,11 +108,15 @@ public class Corgi : MonoBehaviour
         }
         else if (other.CompareTag("Bone"))
         {
-            print("collided with bone");
+            ScoreKeeper.AddPoint();
+            UI.SetScoreText(ScoreKeeper.GetScore());
+            // print("Score: " + ScoreKeeper.GetScore());
+            Destroy(other.gameObject);
         }
         else if (other.CompareTag("Pill"))
         {
-            print("collided with pill");
+            SoberUp();
+            Destroy(other.gameObject);
         }
     }
 
@@ -136,6 +162,7 @@ public class Corgi : MonoBehaviour
     {
         ChangeToSoberSprite();
         isDrunk = false;
+        isPlastered = false;
     }
 
     private void ChangeToSoberSprite()
