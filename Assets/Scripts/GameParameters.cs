@@ -22,4 +22,6 @@ public static class GameParameters
    public static float MoonshineSecondsOnScreen = 5f;
    public static float MoonshineMinSecondsToWait = 1f;
    public static float MoonshineMaxSecondsToWait = 1.5f;
+
+   public static int GameDurationSeconds = 10;
 }
